@@ -5,9 +5,9 @@
     "license": "Apache-2.0",
     "version": "11.0.14",
     "require": {
-        "klarna/module-admin-settings": "1.0.14",
-        "klarna/module-base": "11.0.12",
-        "klarna/module-logger": "3.0.9",
+        "vaimo/kustom-module-admin-settings": "1.0.14",
+        "vaimo/kustom-module-base": "11.0.12",
+        "vaimo/kustom-module-logger": "3.0.9",
         "magento/framework": "^103",
         "magento/module-payment": "^100.1|^100.4",
         "magento/module-quote": "^101.0|^101.2",
