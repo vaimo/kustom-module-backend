@@ -5,7 +5,7 @@
     "license": "Apache-2.0",
     "version": "11.0.15",
     "require": {
-        "vaimo/kustom-module-admin-settings": ">=1.0.14",
+        "vaimo/kustom-module-admin-settings": "^1.1",
         "vaimo/kustom-module-base": "11.0.12",
         "vaimo/kustom-module-logger": "3.0.9",
         "magento/framework": "^103",
