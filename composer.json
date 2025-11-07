@@ -3,7 +3,7 @@
     "description": "Kustom Backend Magento 2 Extension",
     "type": "magento2-module",
     "license": "Apache-2.0",
-    "version": "11.0.15",
+    "version": "11.0.16",
     "require": {
         "vaimo/kustom-module-admin-settings": "^1.1",
         "vaimo/kustom-module-base": "11.0.12",
