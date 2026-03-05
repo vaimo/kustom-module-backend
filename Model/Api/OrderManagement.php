@@ -157,10 +157,6 @@ class OrderManagement implements ApiInterface
      */
     public function updateMerchantReferences($orderId, $reference1, $reference2 = null)
     {
-        \file_put_contents('/tmp/gabor.log', "\n".__METHOD__, FILE_APPEND);
-        \file_put_contents('/tmp/gabor.log', "\n"."  \$reference1 = ".var_export($reference1, true), FILE_APPEND);
-
-
         $response = $this->orderManagement->updateMerchantReferences($orderId, $reference1, $reference2);
         $response = $this->dataObjectFactory->create(['data' => $response]);
         return $response;
@@ -424,9 +420,6 @@ class OrderManagement implements ApiInterface
      */
     public function getPlacedKlarnaOrder($orderId)
     {
-        \file_put_contents('/tmp/gabor.log', "\n".__METHOD__, FILE_APPEND);
-        \file_put_contents('/tmp/gabor.log', "\n"."  \$orderId = ".var_export($orderId, true), FILE_APPEND);
-
         $response = $this->orderManagement->getOrder($orderId);
         $response = $this->dataObjectFactory->create(['data' => $response]);
         return $response;
@@ -439,8 +432,6 @@ class OrderManagement implements ApiInterface
      */
     public function getReservationId()
     {
-        \file_put_contents('/tmp/gabor.log', "\n".__METHOD__, FILE_APPEND);
-
         return $this->getKlarnaOrder()->getOrderId();
     }
 
