@@ -1,7 +1,7 @@
 11.0.18 / 2025-06-03
 ==================
 
-* KUSTOM-57 Cleanup leftover debugging code
+  * KUSTOM-57 Cleanup leftover debugging code
 
 11.0.14 / 2025-06-03
 ==================
