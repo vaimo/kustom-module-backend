@@ -1,3 +1,8 @@
+11.0.19 / 2026-04-22
+==================
+
+  * KUSTOM-83 Fix Magento cancel status if klarna order is cancelled
+
 11.0.18 / 2026-03-05
 ==================
 

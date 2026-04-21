@@ -36,6 +36,14 @@ class Cancel extends AbstractCommand
         $magentoOrder = $payment->getOrder();
         $klarnaOrder = $this->getKlarnaOrder($magentoOrder);
 
+        // TODO: save cancelled flag in database to avoid duplicate calls
+        $klarnaOrderDetails = $this->getOmApi($magentoOrder)
+            ->getPlacedKlarnaOrder($klarnaOrder->getReservationId());
+
+        if ($klarnaOrderDetails->getStatus() === 'CANCELLED') {
+            return null;
+        }
+
         $this
             ->getValidator()
             ->checkRequestSendable(
