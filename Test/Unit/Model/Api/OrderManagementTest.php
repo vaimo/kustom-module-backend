@@ -12,9 +12,11 @@ namespace Klarna\Backend\Test\Model\Api;
 use Klarna\AdminSettings\Model\Configurations\Api as KlarnaConfigurationsApi;
 use Klarna\Backend\Model\Api\Builder as KlarnaApiBuilder;
 use Klarna\Backend\Model\Api\OrderManagement as ApiOrderManagement;
-use Klarna\Backend\Model\Api\Rest\Service\Ordermanagement;
-use Klarna\Orderlines\Model\Container\Parameter;
+use Klarna\Backend\Model\Api\Rest\Service\Ordermanagement as ServiceOrderManagement;
+use Klarna\Base\Helper\DataConverter as KlarnaDataConverter;
+use Klarna\Orderlines\Model\Container\Parameter as KlarnaParameter;
 use Magento\Framework\DataObject;
+use Magento\Framework\DataObjectFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -25,28 +27,28 @@ use PHPUnit\Framework\TestCase;
 class OrderManagementTest extends TestCase
 {
     private ApiOrderManagement $model;
-    private Ordermanagement|MockObject $mockOrderManagement;
-    private \Magento\Framework\DataObjectFactory|MockObject $mockDataObjectFactory;
-    private Parameter|MockObject $mockParameter;
-    private \Klarna\Base\Helper\DataConverter|MockObject $mockDataConverter;
+    private ServiceOrderManagement|MockObject $mockSrvOrderManagement;
+    private DataObjectFactory|MockObject $mockDataObjectFactory;
+    private KlarnaParameter|MockObject $mockParameter;
+    private KlarnaDataConverter|MockObject $mockDataConverter;
     private KlarnaConfigurationsApi|MockObject $mockApi;
     private KlarnaApiBuilder|MockObject $mockBuilder;
 
     protected function setUp(): void
     {
-        $this->mockOrderManagement = $this->getMockBuilder(Ordermanagement::class)
+        $this->mockSrvOrderManagement = $this->getMockBuilder(ServiceOrderManagement::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockDataConverter = $this->getMockBuilder(\Klarna\Base\Helper\DataConverter::class)
+        $this->mockDataConverter = $this->getMockBuilder(KlarnaDataConverter::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockParameter = $this->getMockBuilder(Parameter::class)
+        $this->mockParameter = $this->getMockBuilder(KlarnaParameter::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockDataObjectFactory = $this->getMockBuilder(\Magento\Framework\DataObjectFactory::class)
+        $this->mockDataObjectFactory = $this->getMockBuilder(DataObjectFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->mockDataObjectFactory->method('create')->willReturn(new DataObject());
@@ -60,7 +62,7 @@ class OrderManagementTest extends TestCase
             ->getMock();
 
         $this->model = new ApiOrderManagement(
-             $this->mockOrderManagement,
+             $this->mockSrvOrderManagement,
              $this->mockDataConverter,
              $this->mockDataObjectFactory,
              $this->mockParameter,
@@ -78,7 +80,7 @@ class OrderManagementTest extends TestCase
     #[DataProvider('addShippingInfoFormatProvider')]
     public function testAddShippingInfoFormatsData(array $input, array $expectedPayload): void
     {
-        $this->mockOrderManagement->expects($this->once())
+        $this->mockSrvOrderManagement->expects($this->once())
             ->method('addShippingInfo')
             ->with(
                 $this->anything(),
