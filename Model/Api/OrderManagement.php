@@ -308,7 +308,9 @@ class OrderManagement implements ApiInterface
     /**
      * Get Api Accepted shipping method,For merchant who implement this feature
      * Create Plugin to overwrite this default method code
-     * Allowed values matches (PickUpStore|Home|BoxReg|BoxUnreg|PickUpPoint|Own)
+     * Allowed values matches (PickUpStore|Home|BoxReg|BoxUnreg|PickUpPoint|Own|Postal|DHLPackstation|Digital
+     *                        |Undefined|PickUpWarehouse|ClickCollect|PalletDelivery)
+     * Doc: https://docs.kustom.co/contents/api/order-management/orders/appendordershippinginfo
      *
      * @param array $shipping
      * @return string
