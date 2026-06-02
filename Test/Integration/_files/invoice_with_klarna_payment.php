@@ -35,7 +35,9 @@ $objectManager = Bootstrap::getObjectManager();
 $order = $objectManager->get(OrderInterfaceFactory::class)->create()->loadByIncrementId('100000001');
 
 if (!$order->getId()) {
-    throw new \RuntimeException('Order with increment ID 100000001 not found. Make sure order_with_klarna_payment.php fixture runs successfully.');
+    throw new \RuntimeException(
+        'Order with increment ID 100000001 not found. Make sure order_with_klarna_payment.php fixture runs successfully.'
+    );
 }
 
 // Check if order can be invoiced

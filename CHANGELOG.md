@@ -1,3 +1,8 @@
+11.0.19 / 2026-06-02
+==================
+
+  * KUSTOM-78 Skip sending shipping info when not provided
+
 11.0.18 / 2026-03-05
 ==================
 

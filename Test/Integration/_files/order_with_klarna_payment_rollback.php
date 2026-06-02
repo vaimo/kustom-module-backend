@@ -52,7 +52,7 @@ try {
 
         $order->delete();
     }
-} catch (\Exception $e) {
+} catch (\Exception) {
     // Order already deleted
 }
 
@@ -61,7 +61,7 @@ try {
     $productRepository = $objectManager->get(ProductRepositoryInterface::class);
     $product = $productRepository->get('simple-test-product-klarna');
     $productRepository->delete($product);
-} catch (\Exception $e) {
+} catch (\Exception) {
     // Product already deleted
 }
 

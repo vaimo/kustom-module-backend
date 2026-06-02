@@ -16,7 +16,6 @@ use Klarna\Backend\Model\Validator;
 use Klarna\Backend\Test\Integration\Stub\StubRequest;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\DataObject;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectFactory;
 use Magento\Sales\Api\Data\InvoiceInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
@@ -32,9 +31,7 @@ class CaptureTest extends TestCase
     private const string TEST_CAPTURE_ID = 'test-capture-123';
 
     private Capture $captureCommand;
-    private Factory|MockObject $mockApiFactory;
     private OrderManagement|MockObject $mockOrderManagement;
-    private Validator|MockObject $mockValidator;
     private StubRequest $stubRequest;
     private PaymentDataObjectFactory $paymentDataObjectFactory;
     private OrderRepositoryInterface $orderRepository;
@@ -52,27 +49,21 @@ class CaptureTest extends TestCase
         $this->searchCriteriaBuilder = $objectManager->get(SearchCriteriaBuilder::class);
         $this->invoiceRepository = $objectManager->get(InvoiceRepositoryInterface::class);
 
-        $this->setupMocks($objectManager);
+        $mockApiFactory = $this->createMock(Factory::class);
+        $mockValidator = $this->createMock(Validator::class);
+        $this->stubRequest = $objectManager->create(StubRequest::class);
+        $this->mockOrderManagement = $this->createMock(OrderManagement::class);
+
+        $mockApiFactory->method('createOmApi')->willReturn($this->mockOrderManagement);
 
         $this->captureCommand = $objectManager->create(
             Capture::class,
             [
-                'omFactory' => $this->mockApiFactory,
-                'validator' => $this->mockValidator,
+                'omFactory' => $mockApiFactory,
+                'validator' => $mockValidator,
                 'request' => $this->stubRequest
             ]
         );
-    }
-
-    /** @noinspection ObjectManagerInspection */
-    private function setupMocks(ObjectManagerInterface $objectManager): void
-    {
-        $this->mockOrderManagement = $this->createMock(OrderManagement::class);
-        $this->mockValidator = $this->createMock(Validator::class);
-        $this->stubRequest = $objectManager->create(StubRequest::class);
-        $this->mockApiFactory = $this->createMock(Factory::class);
-
-        $this->mockApiFactory->method('createOmApi')->willReturn($this->mockOrderManagement);
     }
 
     /**
