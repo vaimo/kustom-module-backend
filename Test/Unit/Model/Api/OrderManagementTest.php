@@ -72,6 +72,8 @@ class OrderManagementTest extends TestCase
     }
 
     /**
+     * @dataProvider addShippingInfoFormatProvider
+     *
      * Test that addShippingInfo transforms tracking entries into the correct Klarna API payload format.
      * Scenario: Various combinations of tracking input — standard, oversized fields, multiple entries.
      * Verifies the shipping_info wrapper key is present and each entry contains correctly mapped
