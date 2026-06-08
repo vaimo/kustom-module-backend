@@ -26,9 +26,9 @@ use PHPUnit\Framework\TestCase;
 
 class CaptureTest extends TestCase
 {
-    private const string TEST_ORDER_INCREMENT_ID = '100000001';
-    private const string TEST_RESERVATION_ID = 'test-reservation-id-12345';
-    private const string TEST_CAPTURE_ID = 'test-capture-123';
+    private const TEST_ORDER_INCREMENT_ID = '100000001';
+    private const TEST_RESERVATION_ID = 'test-reservation-id-12345';
+    private const TEST_CAPTURE_ID = 'test-capture-123';
 
     private Capture $captureCommand;
     private OrderManagement|MockObject $mockOrderManagement;
