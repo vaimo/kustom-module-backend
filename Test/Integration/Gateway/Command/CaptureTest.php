@@ -30,13 +30,13 @@ class CaptureTest extends TestCase
     private const TEST_RESERVATION_ID = 'test-reservation-id-12345';
     private const TEST_CAPTURE_ID = 'test-capture-123';
 
-    private Capture $captureCommand;
-    private OrderManagement|MockObject $mockOrderManagement;
-    private StubRequest $stubRequest;
-    private PaymentDataObjectFactory $paymentDataObjectFactory;
-    private OrderRepositoryInterface $orderRepository;
-    private SearchCriteriaBuilder $searchCriteriaBuilder;
-    private InvoiceRepositoryInterface $invoiceRepository;
+    private ?Capture $captureCommand = null;
+    private OrderManagement|MockObject|null $mockOrderManagement = null;
+    private ?StubRequest $stubRequest = null;
+    private ?PaymentDataObjectFactory $paymentDataObjectFactory = null;
+    private ?OrderRepositoryInterface $orderRepository = null;
+    private ?SearchCriteriaBuilder $searchCriteriaBuilder = null;
+    private ?InvoiceRepositoryInterface $invoiceRepository = null;
 
     /** @noinspection ObjectManagerInspection */
     protected function setUp(): void
