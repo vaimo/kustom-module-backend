@@ -97,8 +97,10 @@ class Capture extends AbstractCommand
                 $this->getValidator()::ACTION_TYPE_CAPTURE
             );
 
+        $hasTracking = !empty($requestData['tracking']);
+
         // if tracking info is invalid, stop capture
-        if (!$this->isTrackingInfoValid($requestData['tracking'] ?? null)) {
+        if ($hasTracking && !$this->isTrackingInfoValid($requestData['tracking'])) {
             return null;
         }
 
@@ -122,7 +124,7 @@ class Capture extends AbstractCommand
             $requestData = $requestData->toArray();
         }
 
-        if ($this->isProcessingShipment($requestData, $response)) {
+        if ($hasTracking && $this->isProcessingShipment($requestData, $response)) {
             $this->addShippingInfoToCapture(
                 $response->getCaptureId(),
                 $klarnaOrder->getReservationId(),
@@ -154,9 +156,20 @@ class Capture extends AbstractCommand
             $invoice->addComment("Shipping info sent to Klarna API", false, false);
             return;
         }
-        foreach ($response->getErrorMessages() as $message) {
-            $invoice->addComment($message, false, false);
+
+        $errorMessages = $response->getErrorMessages();
+
+        if (!$errorMessages) {
+            return;
         }
+
+        $errorMessages = \implode('. ', $errorMessages);
+
+        $invoice->addComment(
+            "Received error(s) when sending shipping info to Kustom API: {$errorMessages}.",
+            notify: false,
+            visibleOnFront: false
+        );
     }
 
     /**
@@ -166,13 +179,11 @@ class Capture extends AbstractCommand
      * @param DataObject $response
      * @return bool
      */
-    private function isProcessingShipment(array $requestData, DataObject
-    $response): bool
+    private function isProcessingShipment(array $requestData, DataObject $response): bool
     {
         if (isset($requestData['invoice']['do_shipment'])
             && $requestData['invoice']['do_shipment'] === "1"
-            && $response->getCaptureId()
-            && $this->isTrackingInfoValid($requestData['tracking'] ?? null)) {
+            && $response->getCaptureId()) {
             return true;
         }
         return false;
@@ -181,15 +192,11 @@ class Capture extends AbstractCommand
     /**
      * Validate tracking info
      *
-     * @param array|null $trackingInformation
+     * @param array $trackingInformation
      * @return bool
      */
-    private function isTrackingInfoValid(?array $trackingInformation): bool
+    private function isTrackingInfoValid(array $trackingInformation): bool
     {
-        if ($trackingInformation === null) {
-            return true;
-        }
-
         foreach ((array) $trackingInformation as $info) {
             if (empty($info['carrier_code'])
                 || empty($info['title'])
