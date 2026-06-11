@@ -156,9 +156,20 @@ class Capture extends AbstractCommand
             $invoice->addComment("Shipping info sent to Klarna API", false, false);
             return;
         }
-        foreach ($response->getErrorMessages() as $message) {
-            $invoice->addComment($message, false, false);
+
+        $errorMessages = $response->getErrorMessages();
+
+        if (!$errorMessages) {
+            return;
         }
+
+        $errorMessages = \implode('. ', $errorMessages);
+
+        $invoice->addComment(
+            "Received error(s) when sending shipping info to Kustom API: {$errorMessages}.",
+            notify: false,
+            visibleOnFront: false
+        );
     }
 
     /**
