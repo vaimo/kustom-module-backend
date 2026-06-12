@@ -300,8 +300,10 @@ class CaptureTest extends TestCase
 
         $this->invoiceRepository->save($invoice);
         $reloadedInvoice = $this->invoiceRepository->get($invoice->getEntityId());
-        $this->assertInvoiceHasComment($reloadedInvoice, 'Invalid tracking number');
-        $this->assertInvoiceHasComment($reloadedInvoice, 'Carrier not supported');
+        $this->assertInvoiceHasComment(
+            $reloadedInvoice,
+            'Received error(s) when sending shipping info to Kustom API: Invalid tracking number. Carrier not supported.'
+        );
     }
 
     /**
@@ -348,7 +350,7 @@ class CaptureTest extends TestCase
     private function assertInvoiceHasComment(InvoiceInterface $invoice, string $commentText): void
     {
         // Use getCommentsCollection to load from database
-        $comments = $invoice->getCommentsCollection(true); // true = reload
+        $comments = $invoice->getCommentsCollection(reload: true);
         $found = false;
         $existingComments = [];
         foreach ($comments as $comment) {
